@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratory Management System - Faculty of Technology</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Login Page */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .login-card h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .login-card input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .login-card button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .login-card button:hover {
+            opacity: 0.9;
+        }
+
+        /* Main App */
+        #mainApp {
+            display: none;
+        }
+
+        .navbar {
+            background: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar h1 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            color: #666;
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logout-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            min-height: 600px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 2px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        /* Forms */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .modal-content input,
+        .modal-content select,
+        .modal-content textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        /* Schedule Display */
+        .schedule-display {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .day-column {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .day-header {
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .schedule-item {
+            background: white;
+            border-left: 3px solid #667eea;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .schedule-item .time {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .schedule-item .lab {
+            color: #666;
+            font-size: 12px;
+        }
+
+        /* TV Display */
+        .tv-display {
+            background: #1a1a1a;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .tv-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+        }
+
+        .tv-schedule {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .tv-lab-card {
+            background: #2d2d2d;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .tv-lab-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .tv-session {
+            border-bottom: 1px solid #444;
+            padding: 10px 0;
+        }
+
+        .tv-session:last-child {
+            border-bottom: none;
+        }
+
+        /* RFID Status */
+        .rfid-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .rfid-led {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .rfid-led.green {
+            background: #28a745;
+            box-shadow: 0 0 10px #28a745;
+        }
+
+        .rfid-led.red {
+            background: #dc3545;
+            box-shadow: 0 0 10px #dc3545;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .schedule-display {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="login-card">
+            <h2>Laboratory Management System</h2>
+            <h3 style="text-align: center; color: #666; margin-bottom: 20px;">Faculty of Modern Technology</h3>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <select id="role">
+                <option value="admin">Admin</option>
+                <option value="department_head">Department Head</option>
+                <option value="lab_manager">Lab Manager</option>
+                <option value="teacher">Teacher</option>
+                <option value="student">Student</option>
+            </select>
+            <button onclick="login()">Login</button>
+            <p style="text-align: center; margin-top: 20px; color: #666;">Demo: Use any username with "demo" as password</p>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="mainApp">
+        <div class="container">
+            <nav class="navbar">
+                <h1>Lab Management System</h1>
+                <div class="nav-links">
+                    <div class="nav-link active" onclick="showSection('dashboard')">Dashboard</div>
+                    <div class="nav-link" onclick="showSection('laboratories')">Laboratories</div>
+                    <div class="nav-link" onclick="showSection('components')">Components</div>
+                    <div class="nav-link" onclick="showSection('borrow')">Borrow Requests</div>
+                    <div class="nav-link" onclick="showSection('schedule')">Schedule</div>
+                    <div class="nav-link" onclick="showSection('tv')">TV Display</div>
+                    <div class="nav-link" onclick="showSection('rfid')">RFID Control</div>
+                </div>
+                <div class="user-info">
+                    <span id="userNameDisplay"></span>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+            </nav>
+
+            <div class="content">
+                <!-- Dashboard Section -->
+                <div id="dashboard-section" style="display: block;">
+                    <h2>Dashboard</h2>
+                    <div class="dashboard-grid">
+                        <div class="stat-card">
+                            <h3 id="totalLabs">0</h3>
+                            <p>Total Laboratories</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="totalComponents">0</h3>
+                            <p>Total Components</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="activeBorrows">0</h3>
+                            <p>Active Borrows</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="todaySessions">0</h3>
+                            <p>Today's Sessions</p>
+                        </div>
+                    </div>
+                    
+                    <h3>Recent Borrow Requests</h3>
+                    <table id="recentBorrows">
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Student</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <!-- Laboratories Section -->
+                <div id="laboratories-section" style="display: none;">
+                    <h2>Laboratories Management</h2>
+                    <button class="btn btn-primary" onclick="showAddLabModal()">Add Laboratory</button>
+                    <table id="labsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Code</th>
+                                <th>Floor</th>
+                                <th>Capacity</th>
+                                <th>Manager</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <!-- Components Section -->
+                <div id="components-section" style="display: none;">
+                    <h2>Components Management</h2>
+                    <button class="btn btn-primary" onclick="showAddComponentModal()">Add Component</button>
+                    <table id="componentsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Code</th>
+                                <th>Category</th>
+                                <th>Total</th>
+                                <th>Available</th>
+                                <th>Location</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <!-- Borrow Requests Section -->
+                <div id="borrow-section" style="display: none;">
+                    <h2>Borrow Requests</h2>
+                    <button class="btn btn-primary" onclick="showBorrowModal()">New Borrow Request</button>
+                    <table id="borrowTable">
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Student</th>
+                                <th>Quantity</th>
+                                <th>Borrow Date</th>
+                                <th>Return Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <!-- Schedule Section -->
+                <div id="schedule-section" style="display: none;">
+                    <h2>Class Schedule</h2>
+                    <button class="btn btn-primary" onclick="showAddScheduleModal()">Add Schedule</button>
+                    <div class="schedule-display" id="scheduleDisplay"></div>
+                </div>
+
+                <!-- TV Display Section -->
+                <div id="tv-section" style="display: none;">
+                    <div class="tv-display">
+                        <div class="tv-header">
+                            <h1>Laboratory Schedule</h1>
+                            <h2 id="currentDateTime"></h2>
+                        </div>
+                        <div class="tv-schedule" id="tvSchedule"></div>
+                    </div>
+                </div>
+
+                <!-- RFID Control Section -->
+                <div id="rfid-section" style="display: none;">
+                    <h2>RFID Door Control</h2>
+                    <div class="rfid-status">
+                        <div class="rfid-led green" id="rfidLed"></div>
+                        <span id="rfidStatus">System Ready</span>
+                    </div>
+                    
+                    <h3>Select Laboratory</h3>
+                    <select id="rfidLab" class="form-control" style="width: 100%; padding: 10px; margin: 10px 0;">
+                        <option value="">Select Laboratory</option>
+                    </select>
+                    
+                    <h3>RFID Card</h3>
+                    <input type="text" id="rfidCard" placeholder="Scan or Enter RFID Card" style="width: 100%; padding: 10px; margin: 10px 0;">
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button class="btn btn-success" onclick="openDoor()">Open Door</button>
+                        <button class="btn btn-danger" onclick="closeDoor()">Close Door</button>
+                    </div>
+                    
+                    <h3 style="margin-top: 30px;">Access Logs</h3>
+                    <table id="accessLogs">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Laboratory</th>
+                                <th>User</th>
+                                <th>Action</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="labModal" class="modal">
+        <div class="modal-content">
+            <h2>Add Laboratory</h2>
+            <input type="text" id="labName" placeholder="Laboratory Name">
+            <input type="text" id="labCode" placeholder="Laboratory Code">
+            <input type="number" id="labFloor" placeholder="Floor">
+            <input type="number" id="labCapacity" placeholder="Capacity">
+            <select id="labManager">
+                <option value="">Select Manager</option>
+            </select>
+            <button class="btn btn-primary" onclick="saveLaboratory()">Save</button>
+            <button class="btn btn-danger" onclick="closeModal('labModal')">Cancel</button>
+        </div>
+    </div>
+
+    <div id="componentModal" class="modal">
+        <div class="modal-content">
+            <h2>Add Component</h2>
+            <input type="text" id="compName" placeholder="Component Name">
+            <input type="text" id="compCode" placeholder="Component Code">
+            <input type="text" id="compCategory" placeholder="Category">
+            <textarea id="compDescription" placeholder="Description"></textarea>
+            <input type="number" id="compQuantity" placeholder="Total Quantity">
+            <select id="compLocation">
+                <option value="">Select Laboratory</option>
+            </select>
+            <button class="btn btn-primary" onclick="saveComponent()">Save</button>
+            <button class="btn btn-danger" onclick="closeModal('componentModal')">Cancel</button>
+        </div>
+    </div>
+
+    <div id="borrowModal" class="modal">
+        <div class="modal-content">
+            <h2>New Borrow Request</h2>
+            <select id="borrowComponent">
+                <option value="">Select Component</option>
+            </select>
+            <input type="number" id="borrowQuantity" placeholder="Quantity" min="1">
+            <input type="date" id="borrowReturnDate" placeholder="Expected Return Date">
+            <textarea id="borrowPurpose" placeholder="Purpose"></textarea>
+            <button class="btn btn-primary" onclick="saveBorrowRequest()">Submit Request</button>
+            <button class="btn btn-danger" onclick="closeModal('borrowModal')">Cancel</button>
+        </div>
+    </div>
+
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content">
+            <h2>Add Schedule</h2>
+            <select id="scheduleLab">
+                <option value="">Select Laboratory</option>
+            </select>
+            <input type="text" id="scheduleSubject" placeholder="Subject">
+            <select id="scheduleTeacher">
+                <option value="">Select Teacher</option>
+            </select>
+            <input type="text" id="scheduleGroup" placeholder="Group">
+            <input type="text" id="scheduleYear" placeholder="Year">
+            <input type="text" id="scheduleSpecialization" placeholder="Specialization">
+            <select id="scheduleDay">
+                <option value="0">Sunday</option>
+                <option value="1">Monday</option>
+                <option value="2">Tuesday</option>
+                <option value="3">Wednesday</option>
+                <option value="4">Thursday</option>
+                <option value="5">Friday</option>
+                <option value="6">Saturday</option>
+            </select>
+            <input type="time" id="scheduleStartTime" placeholder="Start Time">
+            <input type="time" id="scheduleEndTime" placeholder="End Time">
+            <button class="btn btn-primary" onclick="saveSchedule()">Save</button>
+            <button class="btn btn-danger" onclick="closeModal('scheduleModal')">Cancel</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        // State
+        let currentUser = null;
+        let token = null;
+        let socket = null;
+        let laboratories = [];
+        let components = [];
+        let borrowRequests = [];
+        let schedules = [];
+        let users = [];
+
+        // Initialize Socket.IO
+        function initSocket() {
+            socket = io();
+            
+            socket.on('newBorrowRequest', (request) => {
+                loadBorrowRequests();
+                showNotification('New borrow request received');
+            });
+            
+            socket.on('borrowRequestUpdated', (request) => {
+                loadBorrowRequests();
+            });
+            
+            socket.on('scheduleUpdated', (schedule) => {
+                loadSchedule();
+            });
+            
+            socket.on('doorAccess', (log) => {
+                updateRFIDStatus(log);
+            });
+        }
+
+        // Login Function
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+
+            // Demo login - in production, this would be a real API call
+            if (password === 'demo') {
+                currentUser = {
+                    _id: Date.now().toString(),
+                    username: username,
+                    role: role,
+                    fullName: username
+                };
+                token = 'demo-token';
+                
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                document.getElementById('userNameDisplay').textContent = currentUser.fullName;
+                
+                // Initialize socket after login
+                initSocket();
+                
+                // Load initial data
+                loadDashboard();
+                loadLaboratories();
+                loadComponents();
+                loadBorrowRequests();
+                loadSchedule();
+                loadUsers();
+                
+                // Start TV display updates
+                updateTVDisplay();
+                setInterval(updateTVDisplay, 60000); // Update every minute
+                
+                // Update current time
+                updateDateTime();
+                setInterval(updateDateTime, 1000);
+            } else {
+                alert('Invalid credentials. Use "demo" as password.');
+            }
+        }
+
+        function logout() {
+            if (socket) {
+                socket.disconnect();
+            }
+            currentUser = null;
+            token = null;
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('mainApp').style.display = 'none';
+        }
+
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.content > div').forEach(div => {
+                div.style.display = 'none';
+            });
+            
+            // Show selected section
+            document.getElementById(`${section}-section`).style.display = 'block';
+            
+            // Update nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Load Data Functions
+        async function loadDashboard() {
+            try {
+                const response = await fetch('/api/laboratories', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                laboratories = await response.json();
+                document.getElementById('totalLabs').textContent = laboratories.length;
+                
+                // Load more stats...
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        async function loadLaboratories() {
+            try {
+                const response = await fetch('/api/laboratories', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                laboratories = await response.json();
+                
+                const tbody = document.querySelector('#labsTable tbody');
+                tbody.innerHTML = '';
+                
+                laboratories.forEach(lab => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${lab.name}</td>
+                            <td>${lab.code}</td>
+                            <td>${lab.floor || '-'}</td>
+                            <td>${lab.capacity || '-'}</td>
+                            <td>${lab.manager ? lab.manager.fullName : 'Not Assigned'}</td>
+                            <td>${lab.isActive ? 'Active' : 'Inactive'}</td>
+                            <td>
+                                <button class="btn btn-warning" onclick="editLab('${lab._id}')">Edit</button>
+                                <button class="btn btn-danger" onclick="deleteLab('${lab._id}')">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                // Update select options
+                updateLabSelects();
+            } catch (error) {
+                console.error('Error loading laboratories:', error);
+            }
+        }
+
+        async function loadComponents() {
+            try {
+                const response = await fetch('/api/components', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                components = await response.json();
+                
+                const tbody = document.querySelector('#componentsTable tbody');
+                tbody.innerHTML = '';
+                
+                components.forEach(comp => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${comp.name}</td>
+                            <td>${comp.code}</td>
+                            <td>${comp.category || '-'}</td>
+                            <td>${comp.quantity}</td>
+                            <td>${comp.available}</td>
+                            <td>${comp.location ? comp.location.name : '-'}</td>
+                            <td>
+                                <button class="btn btn-warning" onclick="editComponent('${comp._id}')">Edit</button>
+                                <button class="btn btn-danger" onclick="deleteComponent('${comp._id}')">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                updateComponentSelects();
+            } catch (error) {
+                console.error('Error loading components:', error);
+            }
+        }
+
+        async function loadBorrowRequests() {
+            try {
+                const response = await fetch('/api/borrow-requests', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                borrowRequests = await response.json();
+                
+                const tbody = document.querySelector('#borrowTable tbody');
+                tbody.innerHTML = '';
+                
+                borrowRequests.forEach(req => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${req.component ? req.component.name : '-'}</td>
+                            <td>${req.student ? req.student.fullName : '-'}</td>
+                            <td>${req.quantity}</td>
+                            <td>${new Date(req.borrowDate).toLocaleDateString()}</td>
+                            <td>${new Date(req.expectedReturnDate).toLocaleDateString()}</td>
+                            <td>
+                                <span style="color: ${getStatusColor(req.status)}">${req.status}</span>
+                            </td>
+                            <td>
+                                ${currentUser.role === 'lab_manager' ? `
+                                    ${req.status === 'pending' ? `
+                                        <button class="btn btn-success" onclick="updateBorrowStatus('${req._id}', 'approved')">Approve</button>
+                                        <button class="btn btn-danger" onclick="updateBorrowStatus('${req._id}', 'rejected')">Reject</button>
+                                    ` : ''}
+                                    ${req.status === 'approved' ? `
+                                        <button class="btn btn-primary" onclick="updateBorrowStatus('${req._id}', 'borrowed')">Mark Borrowed</button>
+                                    ` : ''}
+                                    ${req.status === 'borrowed' ? `
+                                        <button class="btn btn-success" onclick="updateBorrowStatus('${req._id}', 'returned')">Mark Returned</button>
+                                    ` : ''}
+                                ` : ''}
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error loading borrow requests:', error);
+            }
+        }
+
+        async function loadSchedule() {
+            try {
+                const response = await fetch('/api/schedule', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                schedules = await response.json();
+                
+                displaySchedule();
+            } catch (error) {
+                console.error('Error loading schedule:', error);
+            }
+        }
+
+        async function loadUsers() {
+            // Demo users
+            users = [
+                { _id: '1', fullName: 'Dr. Ahmed', role: 'teacher' },
+                { _id: '2', fullName: 'Dr. Fatima', role: 'teacher' },
+                { _id: '3', fullName: 'Prof. Mohammed', role: 'teacher' }
+            ];
+            
+            updateTeacherSelects();
+        }
+
+        function displaySchedule() {
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const display = document.getElementById('scheduleDisplay');
+            display.innerHTML = '';
+            
+            days.forEach((day, index) => {
+                const daySchedule = schedules.filter(s => s.dayOfWeek === index);
+                
+                const column = document.createElement('div');
+                column.className = 'day-column';
+                column.innerHTML = `
+                    <div class="day-header">${day}</div>
+                    ${daySchedule.map(s => `
+                        <div class="schedule-item">
+                            <div class="time">${s.startTime} - ${s.endTime}</div>
+                            <div><strong>${s.subject}</strong></div>
+                            <div>Lab: ${s.laboratory ? s.laboratory.name : '-'}</div>
+                            <div>Teacher: ${s.teacher ? s.teacher.fullName : '-'}</div>
+                            <div>Group: ${s.group} | Year: ${s.year}</div>
+                            ${currentUser.role === 'department_head' ? `
+                                <button class="btn btn-danger btn-sm" onclick="deleteSchedule('${s._id}')">Delete</button>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                `;
+                display.appendChild(column);
+            });
+        }
+
+        async function updateTVDisplay() {
+            try {
+                const response = await fetch('/api/current-schedule');
+                const currentSessions = await response.json();
+                
+                const tvSchedule = document.getElementById('tvSchedule');
+                tvSchedule.innerHTML = '';
+                
+                // Group by laboratory
+                const labSessions = {};
+                currentSessions.forEach(session => {
+                    if (!labSessions[session.laboratory._id]) {
+                        labSessions[session.laboratory._id] = {
+                            lab: session.laboratory,
+                            sessions: []
+                        };
+                    }
+                    labSessions[session.laboratory._id].sessions.push(session);
+                });
+                
+                Object.values(labSessions).forEach(labData => {
+                    const card = document.createElement('div');
+                    card.className = 'tv-lab-card';
+                    card.innerHTML = `
+                        <h3>${labData.lab.name}</h3>
+                        ${labData.sessions.map(s => `
+                            <div class="tv-session">
+                                <div><strong>${s.subject}</strong></div>
+                                <div>Teacher: ${s.teacher.fullName}</div>
+                                <div>Group: ${s.group} | ${s.startTime} - ${s.endTime}</div>
+                            </div>
+                        `).join('')}
+                    `;
+                    tvSchedule.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error updating TV display:', error);
+            }
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            document.getElementById('currentDateTime').textContent = 
+                now.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+        }
+
+        // Modal Functions
+        function showAddLabModal() {
+            updateLabManagerSelect();
+            document.getElementById('labModal').style.display = 'block';
+        }
+
+        function showAddComponentModal() {
+            updateComponentLocationSelect();
+            document.getElementById('componentModal').style.display = 'block';
+        }
+
+        function showBorrowModal() {
+            updateBorrowComponentSelect();
+            document.getElementById('borrowModal').style.display = 'block';
+        }
+
+        function showAddScheduleModal() {
+            updateScheduleSelects();
+            document.getElementById('scheduleModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Save Functions
+        async function saveLaboratory() {
+            const lab = {
+                name: document.getElementById('labName').value,
+                code: document.getElementById('labCode').value,
+                floor: document.getElementById('labFloor').value,
+                capacity: document.getElementById('labCapacity').value,
+                manager: document.getElementById('labManager').value || null
+            };
+            
+            try {
+                const response = await fetch('/api/laboratories', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(lab)
+                });
+                
+                if (response.ok) {
+                    closeModal('labModal');
+                    loadLaboratories();
+                }
+            } catch (error) {
+                console.error('Error saving laboratory:', error);
+            }
+        }
+
+        async function saveComponent() {
+            const component = {
+                name: document.getElementById('compName').value,
+                code: document.getElementById('compCode').value,
+                category: document.getElementById('compCategory').value,
+                description: document.getElementById('compDescription').value,
+                quantity: parseInt(document.getElementById('compQuantity').value),
+                available: parseInt(document.getElementById('compQuantity').value),
+                location: document.getElementById('compLocation').value || null
+            };
+            
+            try {
+                const response = await fetch('/api/components', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(component)
+                });
+                
+                if (response.ok) {
+                    closeModal('componentModal');
+                    loadComponents();
+                }
+            } catch (error) {
+                console.error('Error saving component:', error);
+            }
+        }
+
+        async function saveBorrowRequest() {
+            const request = {
+                component: document.getElementById('borrowComponent').value,
+                quantity: parseInt(document.getElementById('borrowQuantity').value),
+                expectedReturnDate: document.getElementById('borrowReturnDate').value,
+                purpose: document.getElementById('borrowPurpose').value
+            };
+            
+            try {
+                const response = await fetch('/api/borrow-requests', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(request)
+                });
+                
+                if (response.ok) {
+                    closeModal('borrowModal');
+                    loadBorrowRequests();
+                } else {
+                    const data = await response.json();
+                    alert(data.error || 'Error creating request');
+                }
+            } catch (error) {
+                console.error('Error saving borrow request:', error);
+            }
+        }
+
+        async function saveSchedule() {
+            const schedule = {
+                laboratory: document.getElementById('scheduleLab').value,
+                subject: document.getElementById('scheduleSubject').value,
+                teacher: document.getElementById('scheduleTeacher').value,
+                group: document.getElementById('scheduleGroup').value,
+                year: document.getElementById('scheduleYear').value,
+                specialization: document.getElementById('scheduleSpecialization').value,
+                dayOfWeek: parseInt(document.getElementById('scheduleDay').value),
+                startTime: document.getElementById('scheduleStartTime').value,
+                endTime: document.getElementById('scheduleEndTime').value
+            };
+            
+            try {
+                const response = await fetch('/api/schedule', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(schedule)
+                });
+                
+                if (response.ok) {
+                    closeModal('scheduleModal');
+                    loadSchedule();
+                }
+            } catch (error) {
+                console.error('Error saving schedule:', error);
+            }
+        }
+
+        async function updateBorrowStatus(requestId, status) {
+            try {
+                const response = await fetch(`/api/borrow-requests/${requestId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ status })
+                });
+                
+                if (response.ok) {
+                    loadBorrowRequests();
+                }
+            } catch (error) {
+                console.error('Error updating borrow request:', error);
+            }
+        }
+
+        async function deleteSchedule(scheduleId) {
+            if (!confirm('Are you sure you want to delete this schedule?')) return;
+            
+            try {
+                const response = await fetch(`/api/schedule/${scheduleId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.ok) {
+                    loadSchedule();
+                }
+            } catch (error) {
+                console.error('Error deleting schedule:', error);
+            }
+        }
+
+        // RFID Functions
+        async function openDoor() {
+            const labId = document.getElementById('rfidLab').value;
+            const rfidCard = document.getElementById('rfidCard').value;
+            
+            if (!labId) {
+                alert('Please select a laboratory');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/door-access', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        laboratory: labId,
+                        rfidCard: rfidCard,
+                        action: 'open'
+                    })
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    updateRFIDStatus({ status: 'success', action: 'open' });
+                } else {
+                    updateRFIDStatus({ status: 'failed', action: 'open' });
+                    alert(data.error || 'Access denied');
+                }
+            } catch (error) {
+                console.error('Error opening door:', error);
+            }
+        }
+
+        async function closeDoor() {
+            const labId = document.getElementById('rfidLab').value;
+            
+            if (!labId) {
+                alert('Please select a laboratory');
+                return;
+            }
+            
+            try {
+                await fetch('/api/door-access', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        laboratory: labId,
+                        action: 'close'
+                    })
+                });
+                
+                updateRFIDStatus({ status: 'success', action: 'close' });
+            } catch (error) {
+                console.error('Error closing door:', error);
+            }
+        }
+
+        function updateRFIDStatus(log) {
+            const led = document.getElementById('rfidLed');
+            const status = document.getElementById('rfidStatus');
+            
+            if (log.status === 'success') {
+                led.className = 'rfid-led green';
+                status.textContent = `Door ${log.action}ed successfully`;
+            } else {
+                led.className = 'rfid-led red';
+                status.textContent = 'Access denied - Unauthorized';
+            }
+            
+            // Reset after 3 seconds
+            setTimeout(() => {
+                led.className = 'rfid-led green';
+                status.textContent = 'System Ready';
+            }, 3000);
+        }
+
+        // Helper Functions
+        function updateLabSelects() {
+            const labSelects = ['compLocation', 'scheduleLab', 'rfidLab'];
+            
+            labSelects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                if (select) {
+                    select.innerHTML = '<option value="">Select Laboratory</option>';
+                    laboratories.forEach(lab => {
+                        select.innerHTML += `<option value="${lab._id}">${lab.name} (${lab.code})</option>`;
+                    });
+                }
+            });
+        }
+
+        function updateLabManagerSelect() {
+            const select = document.getElementById('labManager');
+            select.innerHTML = '<option value="">Select Manager</option>';
+            // Add lab managers here
+        }
+
+        function updateComponentSelects() {
+            const select = document.getElementById('borrowComponent');
+            if (select) {
+                select.innerHTML = '<option value="">Select Component</option>';
+                components.filter(c => c.available > 0).forEach(comp => {
+                    select.innerHTML += `<option value="${comp._id}">${comp.name} (Available: ${comp.available})</option>`;
+                });
+            }
+        }
+
+        function updateComponentLocationSelect() {
+            const select = document.getElementById('compLocation');
+            if (select) {
+                select.innerHTML = '<option value="">Select Laboratory</option>';
+                laboratories.forEach(lab => {
+                    select.innerHTML += `<option value="${lab._id}">${lab.name}</option>`;
+                });
+            }
+        }
+
+        function updateTeacherSelects() {
+            const select = document.getElementById('scheduleTeacher');
+            if (select) {
+                select.innerHTML = '<option value="">Select Teacher</option>';
+                users.filter(u => u.role === 'teacher').forEach(teacher => {
+                    select.innerHTML += `<option value="${teacher._id}">${teacher.fullName}</option>`;
+                });
+            }
+        }
+
+        function updateScheduleSelects() {
+            updateLabSelects();
+            updateTeacherSelects();
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                'pending': '#ffc107',
+                'approved': '#17a2b8',
+                'borrowed': '#28a745',
+                'returned': '#6c757d',
+                'rejected': '#dc3545',
+                'overdue': '#dc3545'
+            };
+            return colors[status] || '#333';
+        }
+
+        function showNotification(message) {
+            // Simple alert for now
+            alert(message);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show login page by default
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('mainApp').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
