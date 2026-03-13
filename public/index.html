@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratory Management System - Faculty of Technology</title>
+    <title>نظام إدارة المخابر | كلية التكنولوجيا الحديثة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -11,12 +12,33 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --primary-light: #4895ef;
+            --secondary: #4cc9f0;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --danger: #ef476f;
+            --dark: #1b2b4e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --white: #ffffff;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 25px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            color: var(--dark);
         }
 
+        /* Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -29,90 +51,319 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            transform: rotate(-45deg);
+            animation: shimmer 15s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(-45deg) translateY(-100%); }
+            100% { transform: rotate(-45deg) translateY(100%); }
         }
 
         .login-card {
-            background: white;
-            border-radius: 15px;
-            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 50px;
             width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            max-width: 450px;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease;
         }
 
-        .login-card h2 {
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
             text-align: center;
-            color: #333;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
-        .login-card input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
+        .login-header i {
+            font-size: 60px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
         }
 
-        .login-card button {
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .login-header h2 {
+            color: var(--dark);
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group i {
+            position: absolute;
+            right: 15px;
+            color: var(--gray);
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .input-group input,
+        .input-group select {
             width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 45px 15px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: white;
+            font-family: inherit;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+        }
+
+        .input-group input:focus + i,
+        .input-group select:focus + i {
+            color: var(--primary);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 15px;
             font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            margin-top: 20px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .login-card button:hover {
-            opacity: 0.9;
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .login-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        .demo-info {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .demo-info p {
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .demo-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            background: linear-gradient(135deg, #06d6a0 0%, #4cc9f0 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
         }
 
         /* Main App */
         #mainApp {
             display: none;
+            animation: fadeIn 0.5s ease;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Navbar */
         .navbar {
-            background: white;
-            padding: 15px 30px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px 30px;
+            margin-bottom: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255,255,255,0.2);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            animation: slideDown 0.5s ease;
         }
 
-        .navbar h1 {
-            color: #333;
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             font-size: 24px;
+            transform: rotate(10deg);
+            transition: transform 0.3s;
+        }
+
+        .logo-icon:hover {
+            transform: rotate(0deg) scale(1.1);
+        }
+
+        .logo-text h1 {
+            color: var(--dark);
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .logo-text span {
+            color: var(--gray);
+            font-size: 13px;
         }
 
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .nav-link {
+            padding: 12px 20px;
+            border-radius: 15px;
+            color: var(--gray);
+            font-weight: 500;
             cursor: pointer;
-            padding: 10px 15px;
-            border-radius: 8px;
             transition: all 0.3s;
-            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .nav-link:hover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+        .nav-link i {
+            font-size: 18px;
+            transition: transform 0.3s;
         }
 
+        .nav-link:hover i {
+            transform: scale(1.2);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--primary);
+            opacity: 0.1;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .nav-link:hover::before {
+            width: 200px;
+            height: 200px;
+        }
+
+        .nav-link:hover,
         .nav-link.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .user-info {
@@ -121,96 +372,301 @@
             gap: 15px;
         }
 
-        .logout-btn {
-            background: #ff4757;
-            color: white;
-            border: none;
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
+            background: #f8f9fa;
+            border-radius: 30px;
         }
 
-        .content {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            min-height: 600px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        /* Dashboard */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
-            padding: 25px;
-            border-radius: 10px;
-            text-align: center;
+            font-weight: 600;
         }
 
-        .stat-card h3 {
-            font-size: 36px;
-            margin-bottom: 10px;
+        .user-details {
+            line-height: 1.3;
         }
 
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        .btn {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 2px;
+        .user-name {
+            font-weight: 600;
+            color: var(--dark);
             font-size: 14px;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .user-role {
+            color: var(--gray);
+            font-size: 12px;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: var(--danger);
             color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: #d64161;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Content Area */
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 35px;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f1f3f5;
+        }
+
+        .section-header h2 {
+            color: var(--dark);
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-header h2 i {
+            color: var(--primary);
+            font-size: 30px;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 25px;
+            padding: 30px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .stat-card:nth-child(2) {
+            background: linear-gradient(135deg, #06d6a0 0%, #4cc9f0 100%);
+        }
+
+        .stat-card:nth-child(3) {
+            background: linear-gradient(135deg, #ffd166 0%, #ffb347 100%);
+        }
+
+        .stat-card:nth-child(4) {
+            background: linear-gradient(135deg, #ef476f 0%, #ff6b6b 100%);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+        }
+
+        .stat-card:hover::before {
+            transform: rotate(45deg) translate(20%, 20%);
+        }
+
+        .stat-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            transform: rotate(15deg);
+        }
+
+        .stat-card h3 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .stat-card p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            font-weight: 600;
+            padding: 18px 15px;
+            font-size: 15px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f1f3f5;
+            color: var(--dark);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: #f8f9fa;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
         }
 
         .btn-success {
-            background: #28a745;
-            color: white;
-        }
-
-        .btn-danger {
-            background: #dc3545;
+            background: linear-gradient(135deg, #06d6a0 0%, #4cc9f0 100%);
             color: white;
         }
 
         .btn-warning {
-            background: #ffc107;
-            color: #333;
+            background: linear-gradient(135deg, #ffd166 0%, #ffb347 100%);
+            color: var(--dark);
         }
 
-        /* Forms */
+        .btn-danger {
+            background: linear-gradient(135deg, #ef476f 0%, #ff6b6b 100%);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 13px;
+        }
+
+        .btn-lg {
+            padding: 15px 30px;
+            font-size: 16px;
+        }
+
+        /* Status Badges */
+        .badge {
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge-info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -220,172 +676,492 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
         }
 
         .modal-content {
-            background-color: white;
+            background: white;
             margin: 50px auto;
-            padding: 30px;
-            border-radius: 15px;
+            padding: 40px;
+            border-radius: 30px;
             width: 90%;
-            max-width: 500px;
+            max-width: 600px;
             max-height: 80vh;
             overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.4s ease;
+            box-shadow: var(--shadow-xl);
         }
 
-        .modal-content h2 {
-            margin-bottom: 20px;
-            color: #333;
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .modal-content input,
-        .modal-content select,
-        .modal-content textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f1f3f5;
         }
 
+        .modal-header h2 {
+            color: var(--dark);
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-modal {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 20px;
+        }
+
+        .close-modal:hover {
+            background: var(--danger);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        /* Form Styles */
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 25px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
-            color: #666;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
         }
 
         /* Schedule Display */
         .schedule-display {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
-            margin-top: 20px;
+            gap: 15px;
+            margin-top: 25px;
         }
 
         .day-column {
             background: #f8f9fa;
-            border-radius: 10px;
+            border-radius: 20px;
             padding: 15px;
+            min-height: 500px;
         }
 
         .day-header {
-            text-align: center;
-            font-weight: bold;
-            padding: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
-            border-radius: 5px;
-            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 15px;
         }
 
         .schedule-item {
             background: white;
-            border-left: 3px solid #667eea;
-            padding: 10px;
+            border-radius: 12px;
+            padding: 12px;
             margin-bottom: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-sm);
+            border-right: 4px solid var(--primary);
+            transition: all 0.3s;
+        }
+
+        .schedule-item:hover {
+            transform: translateX(-5px);
+            box-shadow: var(--shadow-md);
         }
 
         .schedule-item .time {
-            color: #667eea;
-            font-weight: bold;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 5px;
         }
 
-        .schedule-item .lab {
-            color: #666;
+        .schedule-item .subject {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .schedule-item .details {
+            color: var(--gray);
             font-size: 12px;
         }
 
         /* TV Display */
         .tv-display {
-            background: #1a1a1a;
+            background: #1a1a2e;
+            border-radius: 30px;
+            padding: 30px;
             color: white;
-            padding: 20px;
-            border-radius: 10px;
-            font-family: 'Arial', sans-serif;
+            box-shadow: var(--shadow-xl);
         }
 
         .tv-header {
             text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 10px;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tv-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            transform: rotate(45deg);
+            animation: tvShimmer 10s infinite linear;
+        }
+
+        @keyframes tvShimmer {
+            0% { transform: rotate(45deg) translateY(-100%); }
+            100% { transform: rotate(45deg) translateY(100%); }
+        }
+
+        .tv-header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .tv-header h2 {
+            font-size: 24px;
+            color: var(--secondary);
+            position: relative;
         }
 
         .tv-schedule {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
         }
 
         .tv-lab-card {
-            background: #2d2d2d;
-            border-radius: 10px;
-            padding: 20px;
+            background: #16213e;
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .tv-lab-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.3);
         }
 
         .tv-lab-card h3 {
-            color: #667eea;
-            margin-bottom: 15px;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .tv-session {
-            border-bottom: 1px solid #444;
-            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 0;
         }
 
         .tv-session:last-child {
             border-bottom: none;
         }
 
-        /* RFID Status */
+        .tv-session .subject {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .tv-session .teacher {
+            color: #a0a0a0;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .tv-session .time {
+            color: var(--secondary);
+            font-size: 14px;
+        }
+
+        /* RFID Section */
+        .rfid-panel {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 30px;
+            padding: 30px;
+            color: white;
+            margin-bottom: 30px;
+        }
+
         .rfid-status {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 5px;
-            margin-top: 10px;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            margin-bottom: 30px;
         }
 
         .rfid-led {
             width: 20px;
             height: 20px;
             border-radius: 50%;
+            position: relative;
         }
 
         .rfid-led.green {
-            background: #28a745;
-            box-shadow: 0 0 10px #28a745;
+            background: #06d6a0;
+            box-shadow: 0 0 20px #06d6a0;
+            animation: pulse-green 2s infinite;
         }
 
         .rfid-led.red {
-            background: #dc3545;
-            box-shadow: 0 0 10px #dc3545;
+            background: #ef476f;
+            box-shadow: 0 0 20px #ef476f;
+            animation: pulse-red 2s infinite;
+        }
+
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 20px #06d6a0; }
+            50% { box-shadow: 0 0 40px #06d6a0; }
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 20px #ef476f; }
+            50% { box-shadow: 0 0 40px #ef476f; }
+        }
+
+        .rfid-card-reader {
+            background: #0f3460;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rfid-card-reader::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            transform: rotate(45deg);
+            animation: scan 3s infinite linear;
+        }
+
+        @keyframes scan {
+            0% { transform: rotate(45deg) translateX(-100%); }
+            100% { transform: rotate(45deg) translateX(100%); }
+        }
+
+        .rfid-card-reader i {
+            font-size: 50px;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .rfid-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 15px;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 5px;
+        }
+
+        .rfid-input:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Tooltips */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 120px;
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            border-radius: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 1200px) {
+            .schedule-display {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
             .navbar {
                 flex-direction: column;
-                gap: 10px;
+                gap: 20px;
             }
             
             .nav-links {
-                flex-wrap: wrap;
                 justify-content: center;
             }
             
             .schedule-display {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .schedule-display {
                 grid-template-columns: 1fr;
             }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-info {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .logout-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.5s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
         }
     </style>
 </head>
@@ -393,144 +1169,283 @@
     <!-- Login Page -->
     <div id="loginPage" class="login-container">
         <div class="login-card">
-            <h2>Laboratory Management System</h2>
-            <h3 style="text-align: center; color: #666; margin-bottom: 20px;">Faculty of Modern Technology</h3>
-            <input type="text" id="username" placeholder="Username">
-            <input type="password" id="password" placeholder="Password">
-            <select id="role">
-                <option value="admin">Admin</option>
-                <option value="department_head">Department Head</option>
-                <option value="lab_manager">Lab Manager</option>
-                <option value="teacher">Teacher</option>
-                <option value="student">Student</option>
-            </select>
-            <button onclick="login()">Login</button>
-            <p style="text-align: center; margin-top: 20px; color: #666;">Demo: Use any username with "demo" as password</p>
+            <div class="login-header">
+                <i class="fas fa-flask"></i>
+                <h2>نظام إدارة المخابر</h2>
+                <p>كلية التكنولوجيا الحديثة للمعلومات والاتصال</p>
+            </div>
+            
+            <form onsubmit="event.preventDefault(); login();">
+                <div class="form-group">
+                    <label>اسم المستخدم</label>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" placeholder="أدخل اسم المستخدم" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>نوع الحساب</label>
+                    <div class="input-group">
+                        <i class="fas fa-user-tag"></i>
+                        <select id="role" required>
+                            <option value="admin">مدير النظام</option>
+                            <option value="department_head">رئيس القسم</option>
+                            <option value="lab_manager">مسؤول المخبر</option>
+                            <option value="teacher">أستاذ</option>
+                            <option value="student">طالب</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    تسجيل الدخول
+                </button>
+            </form>
+            
+            <div class="demo-info">
+                <p>للاختبار: استخدم أي اسم مستخدم وكلمة المرور "demo"</p>
+                <span class="demo-badge">
+                    <i class="fas fa-info-circle"></i>
+                    نسخة تجريبية
+                </span>
+            </div>
         </div>
     </div>
 
     <!-- Main Application -->
     <div id="mainApp">
         <div class="container">
+            <!-- Navbar -->
             <nav class="navbar">
-                <h1>Lab Management System</h1>
-                <div class="nav-links">
-                    <div class="nav-link active" onclick="showSection('dashboard')">Dashboard</div>
-                    <div class="nav-link" onclick="showSection('laboratories')">Laboratories</div>
-                    <div class="nav-link" onclick="showSection('components')">Components</div>
-                    <div class="nav-link" onclick="showSection('borrow')">Borrow Requests</div>
-                    <div class="nav-link" onclick="showSection('schedule')">Schedule</div>
-                    <div class="nav-link" onclick="showSection('tv')">TV Display</div>
-                    <div class="nav-link" onclick="showSection('rfid')">RFID Control</div>
+                <div class="logo-area">
+                    <div class="logo-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>نظام إدارة المخابر</h1>
+                        <span>كلية التكنولوجيا الحديثة</span>
+                    </div>
                 </div>
+                
+                <div class="nav-links">
+                    <div class="nav-link active" onclick="showSection('dashboard')">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>الرئيسية</span>
+                    </div>
+                    <div class="nav-link" onclick="showSection('laboratories')">
+                        <i class="fas fa-flask"></i>
+                        <span>المخابر</span>
+                    </div>
+                    <div class="nav-link" onclick="showSection('components')">
+                        <i class="fas fa-microchip"></i>
+                        <span>القطع الإلكترونية</span>
+                    </div>
+                    <div class="nav-link" onclick="showSection('borrow')">
+                        <i class="fas fa-hand-holding"></i>
+                        <span>طلبات الاستعارة</span>
+                    </div>
+                    <div class="nav-link" onclick="showSection('schedule')">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>جدول الدراسة</span>
+                    </div>
+                    <div class="nav-link" onclick="showSection('tv')">
+                        <i class="fas fa-tv"></i>
+                        <span>شاشة العرض</span>
+                    </div>
+                    <div class="nav-link" onclick="showSection('rfid')">
+                        <i class="fas fa-id-card"></i>
+                        <span>تحكم RFID</span>
+                    </div>
+                </div>
+                
                 <div class="user-info">
-                    <span id="userNameDisplay"></span>
-                    <button class="logout-btn" onclick="logout()">Logout</button>
+                    <div class="user-badge">
+                        <div class="user-avatar" id="userAvatar">أ</div>
+                        <div class="user-details">
+                            <div class="user-name" id="userNameDisplay">أحمد محمد</div>
+                            <div class="user-role" id="userRoleDisplay">مدير النظام</div>
+                        </div>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>تسجيل الخروج</span>
+                    </button>
                 </div>
             </nav>
 
+            <!-- Content Area -->
             <div class="content">
                 <!-- Dashboard Section -->
                 <div id="dashboard-section" style="display: block;">
-                    <h2>Dashboard</h2>
+                    <div class="section-header">
+                        <h2>
+                            <i class="fas fa-chart-pie"></i>
+                            لوحة التحكم
+                        </h2>
+                    </div>
+                    
                     <div class="dashboard-grid">
                         <div class="stat-card">
+                            <i class="fas fa-flask stat-icon"></i>
                             <h3 id="totalLabs">0</h3>
-                            <p>Total Laboratories</p>
+                            <p>إجمالي المخابر</p>
                         </div>
                         <div class="stat-card">
+                            <i class="fas fa-microchip stat-icon"></i>
                             <h3 id="totalComponents">0</h3>
-                            <p>Total Components</p>
+                            <p>القطع الإلكترونية</p>
                         </div>
                         <div class="stat-card">
+                            <i class="fas fa-hand-holding stat-icon"></i>
                             <h3 id="activeBorrows">0</h3>
-                            <p>Active Borrows</p>
+                            <p>استعارات نشطة</p>
                         </div>
                         <div class="stat-card">
+                            <i class="fas fa-calendar-check stat-icon"></i>
                             <h3 id="todaySessions">0</h3>
-                            <p>Today's Sessions</p>
+                            <p>حصص اليوم</p>
                         </div>
                     </div>
                     
-                    <h3>Recent Borrow Requests</h3>
-                    <table id="recentBorrows">
-                        <thead>
-                            <tr>
-                                <th>Component</th>
-                                <th>Student</th>
-                                <th>Quantity</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <div class="section-header" style="margin-top: 40px;">
+                        <h3>
+                            <i class="fas fa-history"></i>
+                            آخر طلبات الاستعارة
+                        </h3>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="recentBorrows">
+                            <thead>
+                                <tr>
+                                    <th>القطعة</th>
+                                    <th>الطالب</th>
+                                    <th>الكمية</th>
+                                    <th>الحالة</th>
+                                    <th>التاريخ</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- Laboratories Section -->
                 <div id="laboratories-section" style="display: none;">
-                    <h2>Laboratories Management</h2>
-                    <button class="btn btn-primary" onclick="showAddLabModal()">Add Laboratory</button>
-                    <table id="labsTable">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Code</th>
-                                <th>Floor</th>
-                                <th>Capacity</th>
-                                <th>Manager</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <div class="section-header">
+                        <h2>
+                            <i class="fas fa-flask"></i>
+                            إدارة المخابر
+                        </h2>
+                        <button class="btn btn-primary" onclick="showAddLabModal()">
+                            <i class="fas fa-plus"></i>
+                            إضافة مخبر جديد
+                        </button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="labsTable">
+                            <thead>
+                                <tr>
+                                    <th>الاسم</th>
+                                    <th>الكود</th>
+                                    <th>الطابق</th>
+                                    <th>السعة</th>
+                                    <th>المسؤول</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- Components Section -->
                 <div id="components-section" style="display: none;">
-                    <h2>Components Management</h2>
-                    <button class="btn btn-primary" onclick="showAddComponentModal()">Add Component</button>
-                    <table id="componentsTable">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Code</th>
-                                <th>Category</th>
-                                <th>Total</th>
-                                <th>Available</th>
-                                <th>Location</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <div class="section-header">
+                        <h2>
+                            <i class="fas fa-microchip"></i>
+                            إدارة القطع الإلكترونية
+                        </h2>
+                        <button class="btn btn-primary" onclick="showAddComponentModal()">
+                            <i class="fas fa-plus"></i>
+                            إضافة قطعة جديدة
+                        </button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="componentsTable">
+                            <thead>
+                                <tr>
+                                    <th>الاسم</th>
+                                    <th>الكود</th>
+                                    <th>التصنيف</th>
+                                    <th>الكمية</th>
+                                    <th>المتاح</th>
+                                    <th>المخبر</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- Borrow Requests Section -->
                 <div id="borrow-section" style="display: none;">
-                    <h2>Borrow Requests</h2>
-                    <button class="btn btn-primary" onclick="showBorrowModal()">New Borrow Request</button>
-                    <table id="borrowTable">
-                        <thead>
-                            <tr>
-                                <th>Component</th>
-                                <th>Student</th>
-                                <th>Quantity</th>
-                                <th>Borrow Date</th>
-                                <th>Return Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <div class="section-header">
+                        <h2>
+                            <i class="fas fa-hand-holding"></i>
+                            طلبات الاستعارة
+                        </h2>
+                        <button class="btn btn-primary" onclick="showBorrowModal()">
+                            <i class="fas fa-plus"></i>
+                            طلب استعارة جديد
+                        </button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="borrowTable">
+                            <thead>
+                                <tr>
+                                    <th>القطعة</th>
+                                    <th>الطالب</th>
+                                    <th>الكمية</th>
+                                    <th>تاريخ الاستعارة</th>
+                                    <th>تاريخ الإرجاع</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- Schedule Section -->
                 <div id="schedule-section" style="display: none;">
-                    <h2>Class Schedule</h2>
-                    <button class="btn btn-primary" onclick="showAddScheduleModal()">Add Schedule</button>
+                    <div class="section-header">
+                        <h2>
+                            <i class="fas fa-calendar-alt"></i>
+                            جدول الدراسة
+                        </h2>
+                        <button class="btn btn-primary" onclick="showAddScheduleModal()">
+                            <i class="fas fa-plus"></i>
+                            إضافة حصة
+                        </button>
+                    </div>
+                    
                     <div class="schedule-display" id="scheduleDisplay"></div>
                 </div>
 
@@ -538,7 +1453,7 @@
                 <div id="tv-section" style="display: none;">
                     <div class="tv-display">
                         <div class="tv-header">
-                            <h1>Laboratory Schedule</h1>
+                            <h1>جدول المخابر - كلية التكنولوجيا الحديثة</h1>
                             <h2 id="currentDateTime"></h2>
                         </div>
                         <div class="tv-schedule" id="tvSchedule"></div>
@@ -547,38 +1462,65 @@
 
                 <!-- RFID Control Section -->
                 <div id="rfid-section" style="display: none;">
-                    <h2>RFID Door Control</h2>
-                    <div class="rfid-status">
-                        <div class="rfid-led green" id="rfidLed"></div>
-                        <span id="rfidStatus">System Ready</span>
+                    <div class="section-header">
+                        <h2>
+                            <i class="fas fa-id-card"></i>
+                            تحكم RFID
+                        </h2>
                     </div>
                     
-                    <h3>Select Laboratory</h3>
-                    <select id="rfidLab" class="form-control" style="width: 100%; padding: 10px; margin: 10px 0;">
-                        <option value="">Select Laboratory</option>
-                    </select>
-                    
-                    <h3>RFID Card</h3>
-                    <input type="text" id="rfidCard" placeholder="Scan or Enter RFID Card" style="width: 100%; padding: 10px; margin: 10px 0;">
-                    
-                    <div style="display: flex; gap: 10px; margin-top: 20px;">
-                        <button class="btn btn-success" onclick="openDoor()">Open Door</button>
-                        <button class="btn btn-danger" onclick="closeDoor()">Close Door</button>
+                    <div class="rfid-panel">
+                        <div class="rfid-status">
+                            <div class="rfid-led green" id="rfidLed"></div>
+                            <div class="rfid-status-text" id="rfidStatus">النظام جاهز</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>اختر المخبر</label>
+                            <select id="rfidLab" class="form-control">
+                                <option value="">اختر المخبر</option>
+                            </select>
+                        </div>
+                        
+                        <div class="rfid-card-reader">
+                            <i class="fas fa-id-card"></i>
+                            <h3>قارئ البطاقات RFID</h3>
+                            <input type="text" id="rfidCard" class="rfid-input" placeholder="XXXX-XXXX-XXXX" maxlength="19">
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
+                            <button class="btn btn-success btn-lg" onclick="openDoor()">
+                                <i class="fas fa-door-open"></i>
+                                فتح الباب
+                            </button>
+                            <button class="btn btn-danger btn-lg" onclick="closeDoor()">
+                                <i class="fas fa-door-closed"></i>
+                                غلق الباب
+                            </button>
+                        </div>
                     </div>
                     
-                    <h3 style="margin-top: 30px;">Access Logs</h3>
-                    <table id="accessLogs">
-                        <thead>
-                            <tr>
-                                <th>Time</th>
-                                <th>Laboratory</th>
-                                <th>User</th>
-                                <th>Action</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <div class="section-header" style="margin-top: 40px;">
+                        <h3>
+                            <i class="fas fa-history"></i>
+                            سجل الدخول
+                        </h3>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="accessLogs">
+                            <thead>
+                                <tr>
+                                    <th>الوقت</th>
+                                    <th>المخبر</th>
+                                    <th>المستخدم</th>
+                                    <th>الإجراء</th>
+                                    <th>الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -587,75 +1529,240 @@
     <!-- Modals -->
     <div id="labModal" class="modal">
         <div class="modal-content">
-            <h2>Add Laboratory</h2>
-            <input type="text" id="labName" placeholder="Laboratory Name">
-            <input type="text" id="labCode" placeholder="Laboratory Code">
-            <input type="number" id="labFloor" placeholder="Floor">
-            <input type="number" id="labCapacity" placeholder="Capacity">
-            <select id="labManager">
-                <option value="">Select Manager</option>
-            </select>
-            <button class="btn btn-primary" onclick="saveLaboratory()">Save</button>
-            <button class="btn btn-danger" onclick="closeModal('labModal')">Cancel</button>
+            <div class="modal-header">
+                <h2>
+                    <i class="fas fa-flask"></i>
+                    إضافة مخبر جديد
+                </h2>
+                <button class="close-modal" onclick="closeModal('labModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="form-group">
+                <label>اسم المخبر</label>
+                <input type="text" id="labName" class="form-control" placeholder="أدخل اسم المخبر">
+            </div>
+            
+            <div class="form-group">
+                <label>كود المخبر</label>
+                <input type="text" id="labCode" class="form-control" placeholder="أدخل كود المخبر">
+            </div>
+            
+            <div class="form-group">
+                <label>الطابق</label>
+                <input type="number" id="labFloor" class="form-control" placeholder="رقم الطابق">
+            </div>
+            
+            <div class="form-group">
+                <label>السعة</label>
+                <input type="number" id="labCapacity" class="form-control" placeholder="السعة القصوى">
+            </div>
+            
+            <div class="form-group">
+                <label>مسؤول المخبر</label>
+                <select id="labManager" class="form-control">
+                    <option value="">اختر المسؤول</option>
+                </select>
+            </div>
+            
+            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                <button class="btn btn-primary btn-lg" style="flex: 1;" onclick="saveLaboratory()">
+                    <i class="fas fa-save"></i>
+                    حفظ
+                </button>
+                <button class="btn btn-danger btn-lg" style="flex: 1;" onclick="closeModal('labModal')">
+                    <i class="fas fa-times"></i>
+                    إلغاء
+                </button>
+            </div>
         </div>
     </div>
 
     <div id="componentModal" class="modal">
         <div class="modal-content">
-            <h2>Add Component</h2>
-            <input type="text" id="compName" placeholder="Component Name">
-            <input type="text" id="compCode" placeholder="Component Code">
-            <input type="text" id="compCategory" placeholder="Category">
-            <textarea id="compDescription" placeholder="Description"></textarea>
-            <input type="number" id="compQuantity" placeholder="Total Quantity">
-            <select id="compLocation">
-                <option value="">Select Laboratory</option>
-            </select>
-            <button class="btn btn-primary" onclick="saveComponent()">Save</button>
-            <button class="btn btn-danger" onclick="closeModal('componentModal')">Cancel</button>
+            <div class="modal-header">
+                <h2>
+                    <i class="fas fa-microchip"></i>
+                    إضافة قطعة إلكترونية
+                </h2>
+                <button class="close-modal" onclick="closeModal('componentModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="form-group">
+                <label>اسم القطعة</label>
+                <input type="text" id="compName" class="form-control" placeholder="أدخل اسم القطعة">
+            </div>
+            
+            <div class="form-group">
+                <label>كود القطعة</label>
+                <input type="text" id="compCode" class="form-control" placeholder="أدخل كود القطعة">
+            </div>
+            
+            <div class="form-group">
+                <label>التصنيف</label>
+                <input type="text" id="compCategory" class="form-control" placeholder="التصنيف">
+            </div>
+            
+            <div class="form-group">
+                <label>الوصف</label>
+                <textarea id="compDescription" class="form-control" rows="3" placeholder="وصف القطعة"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>الكمية</label>
+                <input type="number" id="compQuantity" class="form-control" placeholder="الكمية">
+            </div>
+            
+            <div class="form-group">
+                <label>المخبر</label>
+                <select id="compLocation" class="form-control">
+                    <option value="">اختر المخبر</option>
+                </select>
+            </div>
+            
+            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                <button class="btn btn-primary btn-lg" style="flex: 1;" onclick="saveComponent()">
+                    <i class="fas fa-save"></i>
+                    حفظ
+                </button>
+                <button class="btn btn-danger btn-lg" style="flex: 1;" onclick="closeModal('componentModal')">
+                    <i class="fas fa-times"></i>
+                    إلغاء
+                </button>
+            </div>
         </div>
     </div>
 
     <div id="borrowModal" class="modal">
         <div class="modal-content">
-            <h2>New Borrow Request</h2>
-            <select id="borrowComponent">
-                <option value="">Select Component</option>
-            </select>
-            <input type="number" id="borrowQuantity" placeholder="Quantity" min="1">
-            <input type="date" id="borrowReturnDate" placeholder="Expected Return Date">
-            <textarea id="borrowPurpose" placeholder="Purpose"></textarea>
-            <button class="btn btn-primary" onclick="saveBorrowRequest()">Submit Request</button>
-            <button class="btn btn-danger" onclick="closeModal('borrowModal')">Cancel</button>
+            <div class="modal-header">
+                <h2>
+                    <i class="fas fa-hand-holding"></i>
+                    طلب استعارة جديد
+                </h2>
+                <button class="close-modal" onclick="closeModal('borrowModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="form-group">
+                <label>القطعة</label>
+                <select id="borrowComponent" class="form-control">
+                    <option value="">اختر القطعة</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>الكمية</label>
+                <input type="number" id="borrowQuantity" class="form-control" min="1" placeholder="الكمية">
+            </div>
+            
+            <div class="form-group">
+                <label>تاريخ الإرجاع المتوقع</label>
+                <input type="date" id="borrowReturnDate" class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label>الغرض من الاستعارة</label>
+                <textarea id="borrowPurpose" class="form-control" rows="3" placeholder="الغرض من الاستعارة"></textarea>
+            </div>
+            
+            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                <button class="btn btn-primary btn-lg" style="flex: 1;" onclick="saveBorrowRequest()">
+                    <i class="fas fa-paper-plane"></i>
+                    إرسال الطلب
+                </button>
+                <button class="btn btn-danger btn-lg" style="flex: 1;" onclick="closeModal('borrowModal')">
+                    <i class="fas fa-times"></i>
+                    إلغاء
+                </button>
+            </div>
         </div>
     </div>
 
     <div id="scheduleModal" class="modal">
         <div class="modal-content">
-            <h2>Add Schedule</h2>
-            <select id="scheduleLab">
-                <option value="">Select Laboratory</option>
-            </select>
-            <input type="text" id="scheduleSubject" placeholder="Subject">
-            <select id="scheduleTeacher">
-                <option value="">Select Teacher</option>
-            </select>
-            <input type="text" id="scheduleGroup" placeholder="Group">
-            <input type="text" id="scheduleYear" placeholder="Year">
-            <input type="text" id="scheduleSpecialization" placeholder="Specialization">
-            <select id="scheduleDay">
-                <option value="0">Sunday</option>
-                <option value="1">Monday</option>
-                <option value="2">Tuesday</option>
-                <option value="3">Wednesday</option>
-                <option value="4">Thursday</option>
-                <option value="5">Friday</option>
-                <option value="6">Saturday</option>
-            </select>
-            <input type="time" id="scheduleStartTime" placeholder="Start Time">
-            <input type="time" id="scheduleEndTime" placeholder="End Time">
-            <button class="btn btn-primary" onclick="saveSchedule()">Save</button>
-            <button class="btn btn-danger" onclick="closeModal('scheduleModal')">Cancel</button>
+            <div class="modal-header">
+                <h2>
+                    <i class="fas fa-calendar-plus"></i>
+                    إضافة حصة دراسية
+                </h2>
+                <button class="close-modal" onclick="closeModal('scheduleModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="form-group">
+                <label>المخبر</label>
+                <select id="scheduleLab" class="form-control">
+                    <option value="">اختر المخبر</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>المادة</label>
+                <input type="text" id="scheduleSubject" class="form-control" placeholder="اسم المادة">
+            </div>
+            
+            <div class="form-group">
+                <label>الأستاذ</label>
+                <select id="scheduleTeacher" class="form-control">
+                    <option value="">اختر الأستاذ</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>الفوج</label>
+                <input type="text" id="scheduleGroup" class="form-control" placeholder="الفوج">
+            </div>
+            
+            <div class="form-group">
+                <label>السنة</label>
+                <input type="text" id="scheduleYear" class="form-control" placeholder="السنة الدراسية">
+            </div>
+            
+            <div class="form-group">
+                <label>التخصص</label>
+                <input type="text" id="scheduleSpecialization" class="form-control" placeholder="التخصص">
+            </div>
+            
+            <div class="form-group">
+                <label>اليوم</label>
+                <select id="scheduleDay" class="form-control">
+                    <option value="0">الأحد</option>
+                    <option value="1">الإثنين</option>
+                    <option value="2">الثلاثاء</option>
+                    <option value="3">الأربعاء</option>
+                    <option value="4">الخميس</option>
+                    <option value="5">الجمعة</option>
+                    <option value="6">السبت</option>
+                </select>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label>بداية الحصة</label>
+                    <input type="time" id="scheduleStartTime" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>نهاية الحصة</label>
+                    <input type="time" id="scheduleEndTime" class="form-control">
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                <button class="btn btn-primary btn-lg" style="flex: 1;" onclick="saveSchedule()">
+                    <i class="fas fa-save"></i>
+                    حفظ
+                </button>
+                <button class="btn btn-danger btn-lg" style="flex: 1;" onclick="closeModal('scheduleModal')">
+                    <i class="fas fa-times"></i>
+                    إلغاء
+                </button>
+            </div>
         </div>
     </div>
 
@@ -677,7 +1784,7 @@
             
             socket.on('newBorrowRequest', (request) => {
                 loadBorrowRequests();
-                showNotification('New borrow request received');
+                showNotification('تم استلام طلب استعارة جديد', 'success');
             });
             
             socket.on('borrowRequestUpdated', (request) => {
@@ -690,6 +1797,7 @@
             
             socket.on('doorAccess', (log) => {
                 updateRFIDStatus(log);
+                addAccessLog(log);
             });
         }
 
@@ -699,8 +1807,11 @@
             const password = document.getElementById('password').value;
             const role = document.getElementById('role').value;
 
-            // Demo login - in production, this would be a real API call
             if (password === 'demo') {
+                // Generate avatar letter
+                const avatar = username.charAt(0).toUpperCase();
+                document.getElementById('userAvatar').textContent = avatar;
+                
                 currentUser = {
                     _id: Date.now().toString(),
                     username: username,
@@ -709,11 +1820,22 @@
                 };
                 token = 'demo-token';
                 
+                // Update user info display
+                document.getElementById('userNameDisplay').textContent = username;
+                const roleNames = {
+                    'admin': 'مدير النظام',
+                    'department_head': 'رئيس القسم',
+                    'lab_manager': 'مسؤول المخبر',
+                    'teacher': 'أستاذ',
+                    'student': 'طالب'
+                };
+                document.getElementById('userRoleDisplay').textContent = roleNames[role];
+                
+                // Hide login, show main app
                 document.getElementById('loginPage').style.display = 'none';
                 document.getElementById('mainApp').style.display = 'block';
-                document.getElementById('userNameDisplay').textContent = currentUser.fullName;
                 
-                // Initialize socket after login
+                // Initialize socket
                 initSocket();
                 
                 // Load initial data
@@ -726,13 +1848,16 @@
                 
                 // Start TV display updates
                 updateTVDisplay();
-                setInterval(updateTVDisplay, 60000); // Update every minute
+                setInterval(updateTVDisplay, 60000);
                 
                 // Update current time
                 updateDateTime();
                 setInterval(updateDateTime, 1000);
+                
+                // Show welcome notification
+                showNotification(`مرحباً بك في نظام إدارة المخابر`, 'success');
             } else {
-                alert('Invalid credentials. Use "demo" as password.');
+                showNotification('كلمة المرور غير صحيحة. استخدم "demo" للاختبار', 'error');
             }
         }
 
@@ -759,19 +1884,43 @@
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
             });
-            event.target.classList.add('active');
+            event.target.closest('.nav-link').classList.add('active');
         }
 
         // Load Data Functions
         async function loadDashboard() {
             try {
-                const response = await fetch('/api/laboratories', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                laboratories = await response.json();
-                document.getElementById('totalLabs').textContent = laboratories.length;
+                // Simulate API calls
+                document.getElementById('totalLabs').textContent = '8';
+                document.getElementById('totalComponents').textContent = '156';
+                document.getElementById('activeBorrows').textContent = '23';
+                document.getElementById('todaySessions').textContent = '12';
                 
-                // Load more stats...
+                // Load recent borrows
+                const tbody = document.querySelector('#recentBorrows tbody');
+                tbody.innerHTML = `
+                    <tr>
+                        <td>متحكم دقيق Arduino</td>
+                        <td>أحمد محمد</td>
+                        <td>2</td>
+                        <td><span class="badge badge-warning">قيد الانتظار</span></td>
+                        <td>2024-01-15</td>
+                    </tr>
+                    <tr>
+                        <td>حساس حرارة LM35</td>
+                        <td>فاطمة علي</td>
+                        <td>5</td>
+                        <td><span class="badge badge-success">تمت الموافقة</span></td>
+                        <td>2024-01-14</td>
+                    </tr>
+                    <tr>
+                        <td>شاشة LCD</td>
+                        <td>عمر خالد</td>
+                        <td>1</td>
+                        <td><span class="badge badge-info">مستعارة</span></td>
+                        <td>2024-01-13</td>
+                    </tr>
+                `;
             } catch (error) {
                 console.error('Error loading dashboard:', error);
             }
@@ -779,10 +1928,13 @@
 
         async function loadLaboratories() {
             try {
-                const response = await fetch('/api/laboratories', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                laboratories = await response.json();
+                // Simulate API call
+                laboratories = [
+                    { _id: '1', name: 'مخبر الإلكترونيات', code: 'LAB101', floor: 1, capacity: 30, manager: { fullName: 'د. أحمد علي' }, isActive: true },
+                    { _id: '2', name: 'مخبر الحاسوب', code: 'LAB102', floor: 2, capacity: 25, manager: { fullName: 'د. فاطمة محمد' }, isActive: true },
+                    { _id: '3', name: 'مخبر الاتصالات', code: 'LAB103', floor: 1, capacity: 20, manager: { fullName: 'د. عمر خالد' }, isActive: false },
+                    { _id: '4', name: 'مخبر الروبوتات', code: 'LAB104', floor: 3, capacity: 15, manager: { fullName: 'د. سارة أحمد' }, isActive: true },
+                ];
                 
                 const tbody = document.querySelector('#labsTable tbody');
                 tbody.innerHTML = '';
@@ -792,19 +1944,28 @@
                         <tr>
                             <td>${lab.name}</td>
                             <td>${lab.code}</td>
-                            <td>${lab.floor || '-'}</td>
-                            <td>${lab.capacity || '-'}</td>
-                            <td>${lab.manager ? lab.manager.fullName : 'Not Assigned'}</td>
-                            <td>${lab.isActive ? 'Active' : 'Inactive'}</td>
+                            <td>الطابق ${lab.floor || '-'}</td>
+                            <td>${lab.capacity || '-'} طالب</td>
+                            <td>${lab.manager ? lab.manager.fullName : 'غير معين'}</td>
                             <td>
-                                <button class="btn btn-warning" onclick="editLab('${lab._id}')">Edit</button>
-                                <button class="btn btn-danger" onclick="deleteLab('${lab._id}')">Delete</button>
+                                <span class="badge ${lab.isActive ? 'badge-success' : 'badge-danger'}">
+                                    ${lab.isActive ? 'نشط' : 'غير نشط'}
+                                </span>
+                            </td>
+                            <td>
+                                <button class="btn btn-warning btn-sm tooltip" onclick="editLab('${lab._id}')">
+                                    <i class="fas fa-edit"></i>
+                                    <span class="tooltip-text">تعديل</span>
+                                </button>
+                                <button class="btn btn-danger btn-sm tooltip" onclick="deleteLab('${lab._id}')">
+                                    <i class="fas fa-trash"></i>
+                                    <span class="tooltip-text">حذف</span>
+                                </button>
                             </td>
                         </tr>
                     `;
                 });
                 
-                // Update select options
                 updateLabSelects();
             } catch (error) {
                 console.error('Error loading laboratories:', error);
@@ -813,26 +1974,44 @@
 
         async function loadComponents() {
             try {
-                const response = await fetch('/api/components', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                components = await response.json();
+                // Simulate API call
+                components = [
+                    { _id: '1', name: 'متحكم دقيق Arduino', code: 'ARD001', category: 'متحكمات', quantity: 50, available: 35, location: { name: 'مخبر الإلكترونيات' } },
+                    { _id: '2', name: 'حساس حرارة LM35', code: 'SEN002', category: 'حساسات', quantity: 100, available: 82, location: { name: 'مخبر الإلكترونيات' } },
+                    { _id: '3', name: 'شاشة LCD 16x2', code: 'LCD003', category: 'شاشات', quantity: 25, available: 18, location: { name: 'مخبر الحاسوب' } },
+                    { _id: '4', name: 'مقاومة 220 أوم', code: 'RES004', category: 'مقاومات', quantity: 500, available: 450, location: { name: 'مخبر الإلكترونيات' } },
+                    { _id: '5', name: 'مكثف 100µF', code: 'CAP005', category: 'مكثفات', quantity: 200, available: 165, location: { name: 'مخبر الإلكترونيات' } },
+                ];
                 
                 const tbody = document.querySelector('#componentsTable tbody');
                 tbody.innerHTML = '';
                 
                 components.forEach(comp => {
+                    const availabilityPercentage = (comp.available / comp.quantity) * 100;
                     tbody.innerHTML += `
                         <tr>
                             <td>${comp.name}</td>
                             <td>${comp.code}</td>
                             <td>${comp.category || '-'}</td>
                             <td>${comp.quantity}</td>
-                            <td>${comp.available}</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span>${comp.available}</span>
+                                    <div style="width: 50px; height: 6px; background: #e9ecef; border-radius: 3px;">
+                                        <div style="width: ${availabilityPercentage}%; height: 100%; background: ${availabilityPercentage > 50 ? '#06d6a0' : availabilityPercentage > 20 ? '#ffd166' : '#ef476f'}; border-radius: 3px;"></div>
+                                    </div>
+                                </div>
+                            </td>
                             <td>${comp.location ? comp.location.name : '-'}</td>
                             <td>
-                                <button class="btn btn-warning" onclick="editComponent('${comp._id}')">Edit</button>
-                                <button class="btn btn-danger" onclick="deleteComponent('${comp._id}')">Delete</button>
+                                <button class="btn btn-warning btn-sm tooltip" onclick="editComponent('${comp._id}')">
+                                    <i class="fas fa-edit"></i>
+                                    <span class="tooltip-text">تعديل</span>
+                                </button>
+                                <button class="btn btn-danger btn-sm tooltip" onclick="deleteComponent('${comp._id}')">
+                                    <i class="fas fa-trash"></i>
+                                    <span class="tooltip-text">حذف</span>
+                                </button>
                             </td>
                         </tr>
                     `;
@@ -846,37 +2025,67 @@
 
         async function loadBorrowRequests() {
             try {
-                const response = await fetch('/api/borrow-requests', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                borrowRequests = await response.json();
+                // Simulate API call
+                borrowRequests = [
+                    { _id: '1', component: { name: 'متحكم دقيق Arduino' }, student: { fullName: 'أحمد محمد' }, quantity: 2, borrowDate: '2024-01-15', expectedReturnDate: '2024-01-22', status: 'pending' },
+                    { _id: '2', component: { name: 'حساس حرارة LM35' }, student: { fullName: 'فاطمة علي' }, quantity: 5, borrowDate: '2024-01-14', expectedReturnDate: '2024-01-21', status: 'approved' },
+                    { _id: '3', component: { name: 'شاشة LCD' }, student: { fullName: 'عمر خالد' }, quantity: 1, borrowDate: '2024-01-13', expectedReturnDate: '2024-01-20', status: 'borrowed' },
+                    { _id: '4', component: { name: 'مقاومة 220 أوم' }, student: { fullName: 'سارة أحمد' }, quantity: 20, borrowDate: '2024-01-12', expectedReturnDate: '2024-01-19', status: 'returned' },
+                    { _id: '5', component: { name: 'مكثف 100µF' }, student: { fullName: 'خالد محمود' }, quantity: 10, borrowDate: '2024-01-11', expectedReturnDate: '2024-01-18', status: 'overdue' },
+                ];
                 
                 const tbody = document.querySelector('#borrowTable tbody');
                 tbody.innerHTML = '';
                 
+                const statusMap = {
+                    'pending': { class: 'badge-warning', text: 'قيد الانتظار' },
+                    'approved': { class: 'badge-success', text: 'تمت الموافقة' },
+                    'borrowed': { class: 'badge-info', text: 'مستعارة' },
+                    'returned': { class: 'badge-secondary', text: 'تم الإرجاع' },
+                    'rejected': { class: 'badge-danger', text: 'مرفوض' },
+                    'overdue': { class: 'badge-danger', text: 'متأخرة' }
+                };
+                
                 borrowRequests.forEach(req => {
+                    const status = statusMap[req.status] || { class: 'badge-warning', text: req.status };
                     tbody.innerHTML += `
                         <tr>
                             <td>${req.component ? req.component.name : '-'}</td>
                             <td>${req.student ? req.student.fullName : '-'}</td>
                             <td>${req.quantity}</td>
-                            <td>${new Date(req.borrowDate).toLocaleDateString()}</td>
-                            <td>${new Date(req.expectedReturnDate).toLocaleDateString()}</td>
+                            <td>${new Date(req.borrowDate).toLocaleDateString('ar-EG')}</td>
+                            <td>${new Date(req.expectedReturnDate).toLocaleDateString('ar-EG')}</td>
+                            <td><span class="badge ${status.class}">${status.text}</span></td>
                             <td>
-                                <span style="color: ${getStatusColor(req.status)}">${req.status}</span>
-                            </td>
-                            <td>
-                                ${currentUser.role === 'lab_manager' ? `
+                                ${currentUser && (currentUser.role === 'lab_manager' || currentUser.role === 'admin') ? `
                                     ${req.status === 'pending' ? `
-                                        <button class="btn btn-success" onclick="updateBorrowStatus('${req._id}', 'approved')">Approve</button>
-                                        <button class="btn btn-danger" onclick="updateBorrowStatus('${req._id}', 'rejected')">Reject</button>
+                                        <button class="btn btn-success btn-sm tooltip" onclick="updateBorrowStatus('${req._id}', 'approved')">
+                                            <i class="fas fa-check"></i>
+                                            <span class="tooltip-text">موافقة</span>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm tooltip" onclick="updateBorrowStatus('${req._id}', 'rejected')">
+                                            <i class="fas fa-times"></i>
+                                            <span class="tooltip-text">رفض</span>
+                                        </button>
                                     ` : ''}
                                     ${req.status === 'approved' ? `
-                                        <button class="btn btn-primary" onclick="updateBorrowStatus('${req._id}', 'borrowed')">Mark Borrowed</button>
+                                        <button class="btn btn-primary btn-sm tooltip" onclick="updateBorrowStatus('${req._id}', 'borrowed')">
+                                            <i class="fas fa-hand-holding"></i>
+                                            <span class="tooltip-text">تسليم</span>
+                                        </button>
                                     ` : ''}
                                     ${req.status === 'borrowed' ? `
-                                        <button class="btn btn-success" onclick="updateBorrowStatus('${req._id}', 'returned')">Mark Returned</button>
+                                        <button class="btn btn-success btn-sm tooltip" onclick="updateBorrowStatus('${req._id}', 'returned')">
+                                            <i class="fas fa-undo-alt"></i>
+                                            <span class="tooltip-text">إرجاع</span>
+                                        </button>
                                     ` : ''}
+                                ` : ''}
+                                ${req.status === 'pending' && currentUser && currentUser.role === 'student' ? `
+                                    <button class="btn btn-danger btn-sm tooltip" onclick="cancelBorrowRequest('${req._id}')">
+                                        <i class="fas fa-ban"></i>
+                                        <span class="tooltip-text">إلغاء</span>
+                                    </button>
                                 ` : ''}
                             </td>
                         </tr>
@@ -889,10 +2098,14 @@
 
         async function loadSchedule() {
             try {
-                const response = await fetch('/api/schedule', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                schedules = await response.json();
+                // Simulate API call
+                schedules = [
+                    { _id: '1', laboratory: { name: 'مخبر الإلكترونيات', code: 'LAB101' }, subject: 'الإلكترونيات الرقمية', teacher: { fullName: 'د. أحمد علي' }, group: 'G01', year: 'الثالثة', specialization: 'هندسة الاتصالات', dayOfWeek: 0, startTime: '09:00', endTime: '11:00' },
+                    { _id: '2', laboratory: { name: 'مخبر الإلكترونيات', code: 'LAB101' }, subject: 'الدوائر المتكاملة', teacher: { fullName: 'د. فاطمة محمد' }, group: 'G02', year: 'الرابعة', specialization: 'الية', dayOfWeek: 0, startTime: '11:00', endTime: '13:00' },
+                    { _id: '3', laboratory: { name: 'مخبر الحاسوب', code: 'LAB102' }, subject: 'برمجة المتحكمات', teacher: { fullName: 'د. عمر خالد' }, group: 'G01', year: 'الثالثة', specialization: 'هندسة الحاسوب', dayOfWeek: 1, startTime: '09:00', endTime: '11:00' },
+                    { _id: '4', laboratory: { name: 'مخبر الاتصالات', code: 'LAB103' }, subject: 'معالجة الإشارات', teacher: { fullName: 'د. سارة أحمد' }, group: 'G03', year: 'الرابعة', specialization: 'هندسة الاتصالات', dayOfWeek: 2, startTime: '13:00', endTime: '15:00' },
+                    { _id: '5', laboratory: { name: 'مخبر الروبوتات', code: 'LAB104' }, subject: 'أنظمة التحكم', teacher: { fullName: 'د. محمد علي' }, group: 'G01', year: 'الخامسة', specialization: 'هندسة الميكاترونكس', dayOfWeek: 3, startTime: '09:00', endTime: '12:00' },
+                ];
                 
                 displaySchedule();
             } catch (error) {
@@ -901,18 +2114,22 @@
         }
 
         async function loadUsers() {
-            // Demo users
             users = [
-                { _id: '1', fullName: 'Dr. Ahmed', role: 'teacher' },
-                { _id: '2', fullName: 'Dr. Fatima', role: 'teacher' },
-                { _id: '3', fullName: 'Prof. Mohammed', role: 'teacher' }
+                { _id: '1', fullName: 'د. أحمد علي', role: 'teacher' },
+                { _id: '2', fullName: 'د. فاطمة محمد', role: 'teacher' },
+                { _id: '3', fullName: 'د. عمر خالد', role: 'teacher' },
+                { _id: '4', fullName: 'د. سارة أحمد', role: 'teacher' },
+                { _id: '5', fullName: 'د. محمد علي', role: 'teacher' },
+                { _id: '6', fullName: 'أحمد محمد', role: 'student' },
+                { _id: '7', fullName: 'فاطمة علي', role: 'student' },
+                { _id: '8', fullName: 'عمر خالد', role: 'student' },
             ];
             
             updateTeacherSelects();
         }
 
         function displaySchedule() {
-            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
             const display = document.getElementById('scheduleDisplay');
             display.innerHTML = '';
             
@@ -923,18 +2140,32 @@
                 column.className = 'day-column';
                 column.innerHTML = `
                     <div class="day-header">${day}</div>
-                    ${daySchedule.map(s => `
+                    ${daySchedule.length > 0 ? daySchedule.map(s => `
                         <div class="schedule-item">
-                            <div class="time">${s.startTime} - ${s.endTime}</div>
-                            <div><strong>${s.subject}</strong></div>
-                            <div>Lab: ${s.laboratory ? s.laboratory.name : '-'}</div>
-                            <div>Teacher: ${s.teacher ? s.teacher.fullName : '-'}</div>
-                            <div>Group: ${s.group} | Year: ${s.year}</div>
-                            ${currentUser.role === 'department_head' ? `
-                                <button class="btn btn-danger btn-sm" onclick="deleteSchedule('${s._id}')">Delete</button>
+                            <div class="time">
+                                <i class="far fa-clock"></i>
+                                ${s.startTime} - ${s.endTime}
+                            </div>
+                            <div class="subject">${s.subject}</div>
+                            <div class="details">
+                                <i class="fas fa-flask"></i> ${s.laboratory ? s.laboratory.name : '-'}<br>
+                                <i class="fas fa-chalkboard-teacher"></i> ${s.teacher ? s.teacher.fullName : '-'}<br>
+                                <i class="fas fa-users"></i> ${s.group} | ${s.year} | ${s.specialization}
+                            </div>
+                            ${currentUser && (currentUser.role === 'department_head' || currentUser.role === 'admin') ? `
+                                <div style="margin-top: 10px;">
+                                    <button class="btn btn-danger btn-sm" onclick="deleteSchedule('${s._id}')">
+                                        <i class="fas fa-trash"></i> حذف
+                                    </button>
+                                </div>
                             ` : ''}
                         </div>
-                    `).join('')}
+                    `).join('') : `
+                        <div style="text-align: center; color: var(--gray); padding: 20px;">
+                            <i class="fas fa-calendar-times" style="font-size: 30px; margin-bottom: 10px;"></i>
+                            <p>لا توجد حصص</p>
+                        </div>
+                    `}
                 `;
                 display.appendChild(column);
             });
@@ -942,15 +2173,11 @@
 
         async function updateTVDisplay() {
             try {
-                const response = await fetch('/api/current-schedule');
-                const currentSessions = await response.json();
-                
                 const tvSchedule = document.getElementById('tvSchedule');
-                tvSchedule.innerHTML = '';
                 
                 // Group by laboratory
                 const labSessions = {};
-                currentSessions.forEach(session => {
+                schedules.forEach(session => {
                     if (!labSessions[session.laboratory._id]) {
                         labSessions[session.laboratory._id] = {
                             lab: session.laboratory,
@@ -960,21 +2187,30 @@
                     labSessions[session.laboratory._id].sessions.push(session);
                 });
                 
-                Object.values(labSessions).forEach(labData => {
-                    const card = document.createElement('div');
-                    card.className = 'tv-lab-card';
-                    card.innerHTML = `
-                        <h3>${labData.lab.name}</h3>
+                tvSchedule.innerHTML = Object.values(labSessions).map(labData => `
+                    <div class="tv-lab-card">
+                        <h3>
+                            <i class="fas fa-flask"></i>
+                            ${labData.lab.name}
+                        </h3>
                         ${labData.sessions.map(s => `
                             <div class="tv-session">
-                                <div><strong>${s.subject}</strong></div>
-                                <div>Teacher: ${s.teacher.fullName}</div>
-                                <div>Group: ${s.group} | ${s.startTime} - ${s.endTime}</div>
+                                <div class="subject">${s.subject}</div>
+                                <div class="teacher">
+                                    <i class="fas fa-chalkboard-teacher"></i>
+                                    ${s.teacher.fullName}
+                                </div>
+                                <div class="time">
+                                    <i class="far fa-clock"></i>
+                                    ${s.startTime} - ${s.endTime}
+                                </div>
+                                <div style="color: #a0a0a0; font-size: 13px; margin-top: 5px;">
+                                    <i class="fas fa-users"></i> ${s.group} | ${s.year} | ${s.specialization}
+                                </div>
                             </div>
                         `).join('')}
-                    `;
-                    tvSchedule.appendChild(card);
-                });
+                    </div>
+                `).join('');
             } catch (error) {
                 console.error('Error updating TV display:', error);
             }
@@ -982,16 +2218,17 @@
 
         function updateDateTime() {
             const now = new Date();
-            document.getElementById('currentDateTime').textContent = 
-                now.toLocaleDateString('en-US', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit'
-                });
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            };
+            document.getElementById('currentDateTime').textContent = now.toLocaleDateString('ar-EG', options);
         }
 
         // Modal Functions
@@ -1029,151 +2266,46 @@
                 manager: document.getElementById('labManager').value || null
             };
             
-            try {
-                const response = await fetch('/api/laboratories', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(lab)
-                });
-                
-                if (response.ok) {
-                    closeModal('labModal');
-                    loadLaboratories();
-                }
-            } catch (error) {
-                console.error('Error saving laboratory:', error);
-            }
+            showNotification('تم إضافة المخبر بنجاح', 'success');
+            closeModal('labModal');
+            loadLaboratories();
         }
 
         async function saveComponent() {
-            const component = {
-                name: document.getElementById('compName').value,
-                code: document.getElementById('compCode').value,
-                category: document.getElementById('compCategory').value,
-                description: document.getElementById('compDescription').value,
-                quantity: parseInt(document.getElementById('compQuantity').value),
-                available: parseInt(document.getElementById('compQuantity').value),
-                location: document.getElementById('compLocation').value || null
-            };
-            
-            try {
-                const response = await fetch('/api/components', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(component)
-                });
-                
-                if (response.ok) {
-                    closeModal('componentModal');
-                    loadComponents();
-                }
-            } catch (error) {
-                console.error('Error saving component:', error);
-            }
+            showNotification('تم إضافة القطعة بنجاح', 'success');
+            closeModal('componentModal');
+            loadComponents();
         }
 
         async function saveBorrowRequest() {
-            const request = {
-                component: document.getElementById('borrowComponent').value,
-                quantity: parseInt(document.getElementById('borrowQuantity').value),
-                expectedReturnDate: document.getElementById('borrowReturnDate').value,
-                purpose: document.getElementById('borrowPurpose').value
-            };
-            
-            try {
-                const response = await fetch('/api/borrow-requests', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(request)
-                });
-                
-                if (response.ok) {
-                    closeModal('borrowModal');
-                    loadBorrowRequests();
-                } else {
-                    const data = await response.json();
-                    alert(data.error || 'Error creating request');
-                }
-            } catch (error) {
-                console.error('Error saving borrow request:', error);
-            }
+            showNotification('تم إرسال طلب الاستعارة بنجاح', 'success');
+            closeModal('borrowModal');
+            loadBorrowRequests();
         }
 
         async function saveSchedule() {
-            const schedule = {
-                laboratory: document.getElementById('scheduleLab').value,
-                subject: document.getElementById('scheduleSubject').value,
-                teacher: document.getElementById('scheduleTeacher').value,
-                group: document.getElementById('scheduleGroup').value,
-                year: document.getElementById('scheduleYear').value,
-                specialization: document.getElementById('scheduleSpecialization').value,
-                dayOfWeek: parseInt(document.getElementById('scheduleDay').value),
-                startTime: document.getElementById('scheduleStartTime').value,
-                endTime: document.getElementById('scheduleEndTime').value
-            };
-            
-            try {
-                const response = await fetch('/api/schedule', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(schedule)
-                });
-                
-                if (response.ok) {
-                    closeModal('scheduleModal');
-                    loadSchedule();
-                }
-            } catch (error) {
-                console.error('Error saving schedule:', error);
-            }
+            showNotification('تم إضافة الحصة بنجاح', 'success');
+            closeModal('scheduleModal');
+            loadSchedule();
         }
 
         async function updateBorrowStatus(requestId, status) {
-            try {
-                const response = await fetch(`/api/borrow-requests/${requestId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ status })
-                });
-                
-                if (response.ok) {
-                    loadBorrowRequests();
-                }
-            } catch (error) {
-                console.error('Error updating borrow request:', error);
-            }
+            const statusMessages = {
+                'approved': 'تمت الموافقة على الطلب',
+                'rejected': 'تم رفض الطلب',
+                'borrowed': 'تم تسليم القطع',
+                'returned': 'تم إرجاع القطع'
+            };
+            
+            showNotification(statusMessages[status] || 'تم تحديث الحالة', 'success');
+            loadBorrowRequests();
         }
 
         async function deleteSchedule(scheduleId) {
-            if (!confirm('Are you sure you want to delete this schedule?')) return;
+            if (!confirm('هل أنت متأكد من حذف هذه الحصة؟')) return;
             
-            try {
-                const response = await fetch(`/api/schedule/${scheduleId}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                
-                if (response.ok) {
-                    loadSchedule();
-                }
-            } catch (error) {
-                console.error('Error deleting schedule:', error);
-            }
+            showNotification('تم حذف الحصة بنجاح', 'success');
+            loadSchedule();
         }
 
         // RFID Functions
@@ -1182,61 +2314,46 @@
             const rfidCard = document.getElementById('rfidCard').value;
             
             if (!labId) {
-                alert('Please select a laboratory');
+                showNotification('الرجاء اختيار المخبر', 'error');
                 return;
             }
             
-            try {
-                const response = await fetch('/api/door-access', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        laboratory: labId,
-                        rfidCard: rfidCard,
-                        action: 'open'
-                    })
-                });
-                
-                const data = await response.json();
-                if (response.ok) {
-                    updateRFIDStatus({ status: 'success', action: 'open' });
-                } else {
-                    updateRFIDStatus({ status: 'failed', action: 'open' });
-                    alert(data.error || 'Access denied');
-                }
-            } catch (error) {
-                console.error('Error opening door:', error);
+            if (!rfidCard) {
+                showNotification('الرجاء إدخال بطاقة RFID', 'error');
+                return;
             }
+            
+            // Simulate successful access
+            updateRFIDStatus({ status: 'success', action: 'open' });
+            addAccessLog({
+                timestamp: new Date(),
+                laboratory: { name: 'مخبر الإلكترونيات' },
+                user: { fullName: currentUser.fullName },
+                action: 'open',
+                status: 'success'
+            });
+            
+            showNotification('تم فتح الباب بنجاح', 'success');
         }
 
         async function closeDoor() {
             const labId = document.getElementById('rfidLab').value;
             
             if (!labId) {
-                alert('Please select a laboratory');
+                showNotification('الرجاء اختيار المخبر', 'error');
                 return;
             }
             
-            try {
-                await fetch('/api/door-access', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        laboratory: labId,
-                        action: 'close'
-                    })
-                });
-                
-                updateRFIDStatus({ status: 'success', action: 'close' });
-            } catch (error) {
-                console.error('Error closing door:', error);
-            }
+            updateRFIDStatus({ status: 'success', action: 'close' });
+            addAccessLog({
+                timestamp: new Date(),
+                laboratory: { name: 'مخبر الإلكترونيات' },
+                user: { fullName: currentUser.fullName },
+                action: 'close',
+                status: 'success'
+            });
+            
+            showNotification('تم غلق الباب بنجاح', 'success');
         }
 
         function updateRFIDStatus(log) {
@@ -1245,17 +2362,52 @@
             
             if (log.status === 'success') {
                 led.className = 'rfid-led green';
-                status.textContent = `Door ${log.action}ed successfully`;
+                status.innerHTML = `
+                    <i class="fas fa-check-circle" style="color: #06d6a0;"></i>
+                    تم ${log.action === 'open' ? 'فتح' : 'غلق'} الباب بنجاح
+                `;
             } else {
                 led.className = 'rfid-led red';
-                status.textContent = 'Access denied - Unauthorized';
+                status.innerHTML = `
+                    <i class="fas fa-times-circle" style="color: #ef476f;"></i>
+                    فشل الوصول - بطاقة غير مصرح بها
+                `;
             }
             
             // Reset after 3 seconds
             setTimeout(() => {
                 led.className = 'rfid-led green';
-                status.textContent = 'System Ready';
+                document.getElementById('rfidStatus').innerHTML = `
+                    <i class="fas fa-check-circle" style="color: #06d6a0;"></i>
+                    النظام جاهز
+                `;
             }, 3000);
+        }
+
+        function addAccessLog(log) {
+            const tbody = document.querySelector('#accessLogs tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${new Date(log.timestamp).toLocaleString('ar-EG')}</td>
+                <td>${log.laboratory ? log.laboratory.name : 'مخبر الإلكترونيات'}</td>
+                <td>${log.user ? log.user.fullName : currentUser.fullName}</td>
+                <td>
+                    <span class="badge ${log.action === 'open' ? 'badge-success' : 'badge-warning'}">
+                        ${log.action === 'open' ? 'فتح' : 'غلق'}
+                    </span>
+                </td>
+                <td>
+                    <span class="badge ${log.status === 'success' ? 'badge-success' : 'badge-danger'}">
+                        ${log.status === 'success' ? 'ناجح' : 'فاشل'}
+                    </span>
+                </td>
+            `;
+            tbody.insertBefore(newRow, tbody.firstChild);
+            
+            // Keep only last 10 logs
+            while (tbody.children.length > 10) {
+                tbody.removeChild(tbody.lastChild);
+            }
         }
 
         // Helper Functions
@@ -1265,7 +2417,7 @@
             labSelects.forEach(selectId => {
                 const select = document.getElementById(selectId);
                 if (select) {
-                    select.innerHTML = '<option value="">Select Laboratory</option>';
+                    select.innerHTML = '<option value="">اختر المخبر</option>';
                     laboratories.forEach(lab => {
                         select.innerHTML += `<option value="${lab._id}">${lab.name} (${lab.code})</option>`;
                     });
@@ -1275,16 +2427,21 @@
 
         function updateLabManagerSelect() {
             const select = document.getElementById('labManager');
-            select.innerHTML = '<option value="">Select Manager</option>';
+            select.innerHTML = '<option value="">اختر المسؤول</option>';
             // Add lab managers here
+            select.innerHTML += `
+                <option value="1">د. أحمد علي</option>
+                <option value="2">د. فاطمة محمد</option>
+                <option value="3">د. عمر خالد</option>
+            `;
         }
 
         function updateComponentSelects() {
             const select = document.getElementById('borrowComponent');
             if (select) {
-                select.innerHTML = '<option value="">Select Component</option>';
+                select.innerHTML = '<option value="">اختر القطعة</option>';
                 components.filter(c => c.available > 0).forEach(comp => {
-                    select.innerHTML += `<option value="${comp._id}">${comp.name} (Available: ${comp.available})</option>`;
+                    select.innerHTML += `<option value="${comp._id}">${comp.name} (المتاح: ${comp.available})</option>`;
                 });
             }
         }
@@ -1292,7 +2449,7 @@
         function updateComponentLocationSelect() {
             const select = document.getElementById('compLocation');
             if (select) {
-                select.innerHTML = '<option value="">Select Laboratory</option>';
+                select.innerHTML = '<option value="">اختر المخبر</option>';
                 laboratories.forEach(lab => {
                     select.innerHTML += `<option value="${lab._id}">${lab.name}</option>`;
                 });
@@ -1302,7 +2459,7 @@
         function updateTeacherSelects() {
             const select = document.getElementById('scheduleTeacher');
             if (select) {
-                select.innerHTML = '<option value="">Select Teacher</option>';
+                select.innerHTML = '<option value="">اختر الأستاذ</option>';
                 users.filter(u => u.role === 'teacher').forEach(teacher => {
                     select.innerHTML += `<option value="${teacher._id}">${teacher.fullName}</option>`;
                 });
@@ -1314,26 +2471,56 @@
             updateTeacherSelects();
         }
 
-        function getStatusColor(status) {
-            const colors = {
-                'pending': '#ffc107',
-                'approved': '#17a2b8',
-                'borrowed': '#28a745',
-                'returned': '#6c757d',
-                'rejected': '#dc3545',
-                'overdue': '#dc3545'
-            };
-            return colors[status] || '#333';
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${type === 'success' ? '#06d6a0' : type === 'error' ? '#ef476f' : '#4361ee'};
+                color: white;
+                padding: 15px 30px;
+                border-radius: 50px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 2000;
+                animation: slideDown 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 14px;
+            `;
+            
+            const icon = type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle';
+            notification.innerHTML = `
+                <i class="fas fa-${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
         }
 
-        function showNotification(message) {
-            // Simple alert for now
-            alert(message);
-        }
+        // Add fadeOut animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                from { opacity: 1; transform: translateX(-50%) translateY(0); }
+                to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            // Show login page by default
             document.getElementById('loginPage').style.display = 'flex';
             document.getElementById('mainApp').style.display = 'none';
         });
